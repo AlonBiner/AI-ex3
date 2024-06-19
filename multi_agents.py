@@ -180,7 +180,60 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         """*** YOUR CODE HERE ***"""
-        util.raiseNotDefined()
+        value, action = self._Max_value(game_state, 0, float('-inf'), float('inf'))
+        return action
+
+    def _Max_value(self, game_state, current_depth, alpha, beta):
+        """
+        This function acts as the Max player.
+        This player is the one who moves the tiles.
+        :param game_state: The current state of the game.
+        :param current_depth: The current depth of the minimax algorithm.
+        :param alpha: The current best Max value.
+        :param beta: The current best Min value.
+        :return: The max value of the possible successor states according to the evaluation function.
+        """
+        if current_depth == self.depth:
+            return self.evaluation_function(game_state), Action.STOP
+        value = float('-inf')
+        best_move = Action.STOP
+        for action in game_state.get_legal_actions(0):
+            successor_value, successor_action = self._Min_value(
+                game_state.generate_successor(0, action), current_depth, alpha, beta)
+            if successor_value > value:
+                value = successor_value
+                best_move = action
+                # Assign to alpha the value if it's larger:
+                alpha = max(alpha, value)
+            # If the value is larger than beta, the algorithm won't pick this path, so we end now.
+            if value >= beta:
+                return value, best_move
+        return value, best_move
+
+    def _Min_value(self, game_state, current_depth, alpha, beta):
+        """
+        This function acts as the Min player.
+        This player is the one who places new tiles in each of his turns.
+        :param game_state: The current state of the game.
+        :param current_depth: The current depth of the minimax algorithm.
+        :param alpha: The current best Max value.
+        :param beta: The current best Min value.
+        :return: The max value of the possible successor states according to the evaluation function.
+        """
+        value = float('inf')
+        best_move = Action.STOP
+        for action in game_state.get_legal_actions(1):
+            successor_value, successor_action = self._Max_value(
+                game_state.generate_successor(1, action), current_depth + 1, alpha, beta)
+            if successor_value < value:
+                value = successor_value
+                best_move = action
+                # Assign to beta the value if it's smaller:
+                beta = min(beta, value)
+            # If the value is smaller than alpha, the algorithm won't pick this path, so we end now.
+            if value <= alpha:
+                return value, best_move
+        return value, best_move
 
 
 
