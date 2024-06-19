@@ -51,9 +51,26 @@ class ReflexAgent(Agent):
         board = successor_game_state.board
         max_tile = successor_game_state.max_tile
         score = successor_game_state.score
+        num_of_empty_cells = np.count_nonzero(board == 0)
 
         "*** YOUR CODE HERE ***"
-        return score
+
+        # Add to the evaluation to check if adjacent tiles are equal, which will be more likely for a higher score
+        # later on.
+        same_number_score = 0
+        for row in board:
+            for i in range(len(row) - 1):
+                if row[i] == row[i + 1]:
+                    same_number_score += 1
+
+        for col in range(board.shape[1]):
+            for i in range(board.shape[0] - 1):
+                if board[i, col] == board[i + 1, col]:
+                    same_number_score += 1
+
+        # The evaluation will consist of the: score, number of empty cells (more empty cells means that the game is
+        # probably in a better state), and the evaluation of the adjacent tiles equality.
+        return score + max_tile + num_of_empty_cells + same_number_score
 
 
 def score_evaluation_function(current_game_state):
@@ -110,7 +127,46 @@ class MinmaxAgent(MultiAgentSearchAgent):
             Returns the successor game state after an agent takes an action
         """
         """*** YOUR CODE HERE ***"""
-        util.raiseNotDefined()
+        value, action = self._Max_value(game_state, 0)
+        return action
+
+    def _Max_value(self, game_state, current_depth):
+        """
+        This function acts as the Max player.
+        This player is the one who moves the tiles.
+        :param game_state: The current game state of the board.
+        :param current_depth: The current depth of the minimax algorithm.
+        :return: The max value of the possible successor states according to the evaluation function.
+        """
+        if current_depth == self.depth:
+            return self.evaluation_function(game_state), Action.STOP
+        value = float('-inf')
+        best_move = Action.STOP
+        for action in game_state.get_legal_actions(0):
+            successor_value, successor_action = self._Min_value(
+                game_state.generate_successor(0, action), current_depth)
+            if successor_value > value:
+                value = successor_value
+                best_move = action
+        return value, best_move
+
+    def _Min_value(self, game_state, current_depth):
+        """
+        This function acts as the Min player.
+        This player is the one who places new tiles in each of his turns.
+        :param game_state: The current state of the game.
+        :param current_depth:  The current depth of the minimax algorithm.
+        :return: The minimum value of the possible successor states according to the evaluation function.
+        """
+        value = float('inf')
+        best_move = Action.STOP
+        for action in game_state.get_legal_actions(1):
+            successor_value, successor_action = self._Max_value(
+                game_state.generate_successor(1, action), current_depth + 1)
+            if successor_value < value:
+                value = successor_value
+                best_move = action
+        return value, best_move
 
 
 
