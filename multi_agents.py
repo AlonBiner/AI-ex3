@@ -1,3 +1,5 @@
+import random
+
 import numpy as np
 import abc
 import util
@@ -138,10 +140,10 @@ class MinmaxAgent(MultiAgentSearchAgent):
         :param current_depth: The current depth of the minimax algorithm.
         :return: The max value of the possible successor states according to the evaluation function.
         """
-        if current_depth == self.depth:
+        if current_depth == self.depth or len(game_state.get_legal_actions(0)) == 0:
             return self.evaluation_function(game_state), Action.STOP
         value = float('-inf')
-        best_move = Action.STOP
+        best_move = None
         for action in game_state.get_legal_actions(0):
             successor_value, successor_action = self._Min_value(
                 game_state.generate_successor(0, action), current_depth)
@@ -159,7 +161,7 @@ class MinmaxAgent(MultiAgentSearchAgent):
         :return: The minimum value of the possible successor states according to the evaluation function.
         """
         value = float('inf')
-        best_move = Action.STOP
+        best_move = None
         for action in game_state.get_legal_actions(1):
             successor_value, successor_action = self._Max_value(
                 game_state.generate_successor(1, action), current_depth + 1)
@@ -193,10 +195,10 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         :param beta: The current best Min value.
         :return: The max value of the possible successor states according to the evaluation function.
         """
-        if current_depth == self.depth:
+        if current_depth == self.depth or len(game_state.get_legal_actions(0)) == 0:
             return self.evaluation_function(game_state), Action.STOP
         value = float('-inf')
-        best_move = Action.STOP
+        best_move = None
         for action in game_state.get_legal_actions(0):
             successor_value, successor_action = self._Min_value(
                 game_state.generate_successor(0, action), current_depth, alpha, beta)
@@ -221,7 +223,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         :return: The max value of the possible successor states according to the evaluation function.
         """
         value = float('inf')
-        best_move = Action.STOP
+        best_move = None
         for action in game_state.get_legal_actions(1):
             successor_value, successor_action = self._Max_value(
                 game_state.generate_successor(1, action), current_depth + 1, alpha, beta)
@@ -250,10 +252,45 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         legal moves.
         """
         """*** YOUR CODE HERE ***"""
-        util.raiseNotDefined()
+        value, action = self._Max_value(game_state, 0)
+        return action
 
+    def _Max_value(self, game_state, current_depth):
+        """
+        This function acts as the Max player.
+        This player is the one who moves the tiles.
+        :param game_state: The current state of the game.
+        :param current_depth: The current depth of the minimax algorithm.
+        :param alpha: The current best Max value.
+        :param beta: The current best Min value.
+        :return: The max value of the possible successor states according to the evaluation function.
+        """
+        if current_depth == self.depth or len(game_state.get_legal_actions(0)) == 0:
+            return self.evaluation_function(game_state), Action.STOP
+        value = float('-inf')
+        best_move = None
+        for action in game_state.get_legal_actions(0):
+            successor_value = self._expectation_value(
+                game_state.generate_successor(0, action), current_depth)
+            if successor_value > value:
+                value = successor_value
+                best_move = action
+        return value, best_move
 
-
+    def _expectation_value(self, game_state, current_depth):
+        """
+        This function evaluates the expectation value of a game state.
+        :param game_state: The game state to evaluate.
+        :param current_depth: The depth of the evaluation.
+        :return: The value of the expectation
+        """
+        value = 0
+        legal_actions = game_state.get_legal_actions(1)
+        for action in legal_actions:
+            successor_value, successor_action = self._Max_value(
+                game_state.generate_successor(1, action), current_depth + 1)
+            value += successor_value
+        return value / len(legal_actions)
 
 
 def better_evaluation_function(current_game_state):
