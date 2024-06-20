@@ -1,0 +1,366 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass heb-article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "David CLM"
+\font_sans "default" "David CLM"
+\font_typewriter "default" "David CLM"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype true
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Introduction To AI (67842) | Ex3
+\end_layout
+
+\begin_layout Section*
+Question 4
+\end_layout
+
+\begin_layout Subsection*
+(1)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/eitan.snir/Desktop/University/Year2/semester2/Introdution_to_AI/2048/4.1.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+(2)
+\end_layout
+
+\begin_layout Itemize
+We will not need the value of all leaves.
+\end_layout
+
+\begin_layout Itemize
+For example in the next graph:
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/eitan.snir/Desktop/University/Year2/semester2/Introdution_to_AI/2048/4.2.png
+	scale 150
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If we assign the evaluation of the red Min node to 400 and 400, we would
+ get from the Min 400, and from the expectation function the value of 400,
+ which the Max player would choose.
+\end_layout
+
+\begin_layout Itemize
+However, we do not need both nodes.
+ If we see that the 7th leaf is smaller than the minimum expectation value
+ up to now, we know for sure that min will return a value that is smaller
+ than the current expectation value, and Max wont choose it.
+ In that case we can return the 7th value as the expectation value without
+ needing to know the 8th value.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+In conclusion, every time we enter a new node for evaluation, we do not
+ necessarily need to know all its leaves values.
+ If one of them is smaller than the current evaluation value, we do not
+ need to keep evaluating this node.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+(3)
+\end_layout
+
+\begin_layout Itemize
+In the graph with the given assumption, after evaluating the first 2 nodes,
+ the Min player will choose the minimum between the values.
+\end_layout
+
+\begin_layout Itemize
+We will refer to this minimum value as 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+There are now 
+\begin_inset Formula $probability^{-1}-1$
+\end_inset
+
+ leaves left in this node.
+\end_layout
+
+\begin_layout Itemize
+We conclude from this that the range of the expectation value of the node
+ is:
+\begin_inset Formula 
+\[
+\left[\frac{x+probability^{-1}\cdot\left(-2\right)}{probability^{-1}},\frac{x+probability^{-1}\cdot2}{probability^{-1}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+For example:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In the graph given in the question, after evaluation of the first two nodes,
+ the Min player returns the value of 2.
+\end_layout
+
+\begin_layout Itemize
+From this reason, the range of values that the left-handed expectation node
+ will return is 
+\begin_inset Formula $\left[\frac{2+\left(-2\right)}{2},\frac{2+2}{2}\right]=\left[0,2\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+As we showed in the first subsection, the expectation value returned is
+ 
+\begin_inset Formula $1.5$
+\end_inset
+
+ which is in range.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+(4)
+\end_layout
+
+\begin_layout Itemize
+We will always need to check the values for all of the left-handed expectation
+ node in order to get a expectation value.
+\end_layout
+
+\begin_layout Itemize
+From now on, in each expectation node, we can check after evaluating the
+ first Min value if the node range is smaller than the maximum of the expectatio
+n nodes evaluated up until now.
+\end_layout
+
+\begin_layout Itemize
+If the range is smaller than the maximum expectation value:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We know that the Max player will not choose this path.
+\end_layout
+
+\begin_layout Itemize
+At this point we can return the value of the maximum range of the current
+ node, and move on to the next evaluation node.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Otherwise we expand and evaluate the next leaf.
+ (after the evaluation we check the range again)
+\end_layout
+
+\begin_layout Itemize
+For exapmple:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In the graph given in the question, after evaluating the first two leaves
+ the Min player chooses 2.
+\end_layout
+
+\begin_layout Itemize
+We continue to evaluate the next 2 leaves, as we said that we need to get
+ a expectation value.
+\end_layout
+
+\begin_layout Itemize
+The min player returns the value of 1, which means the expectation value
+ is 1.5.
+\end_layout
+
+\begin_layout Itemize
+We continue to the next expectation node:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Min value is 0.
+\end_layout
+
+\begin_layout Itemize
+The range that is possible is 
+\begin_inset Formula $\left[\frac{0+\left(-2\right)}{2},\frac{0+2}{2}\right]=\left[-1,1\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+This range is smaller than 1.5, which is our current maximum expectation
+ value, so we dont evaluate any more leaves and return from the expectation
+ node 1.
+\end_layout
+
+\begin_layout Itemize
+Now the Max player chooses between 1.5 and 1, it will choose 1.5 as we know
+ it does.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_body
+\end_document
