@@ -297,10 +297,40 @@ def better_evaluation_function(current_game_state):
     """
     Your extreme 2048 evaluation function (question 5).
 
-    DESCRIPTION: <write something here so we know what you did>
+    DESCRIPTION: The evalution function adds between the:
+        -score
+        -highest tile
+        -number of empty cells
+        -number of cells which are the same as their neighbors
+        -number of sorted rows
+        -number of empty rows
+    Each feature has a different weight in the linear combination.
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    board = current_game_state.board
+    max_tile = current_game_state.max_tile
+    score = current_game_state.score
+    num_of_empty_cells = np.count_nonzero(board == 0)
+
+    # Add to the evaluation to check if adjacent tiles are equal, which will be more likely for a higher score
+    # later on.
+    same_number_score = 0
+    num_of_sorted_rows = 0
+    mask = np.all(board == 0, axis=1)
+    num_of_empty_rows = np.sum(mask)
+
+    for row in board:
+        row_without_empty_cells = row[row > 0]
+        num_of_sorted_rows += np.all(row_without_empty_cells[:-1] <= row_without_empty_cells[1:])
+        for i in range(len(row) - 1):
+            if row[i] == row[i + 1] and row[i] != 0:
+                same_number_score += 1
+
+    for col in range(board.shape[1]):
+        for i in range(board.shape[0] - 1):
+            if board[i, col] == board[i + 1, col] and board[i, col] != 0:
+                same_number_score += 1
+
+    return 4*score + 5*max_tile + 2*num_of_empty_cells + 3*(same_number_score + num_of_sorted_rows) + 3*num_of_empty_rows
 
 
 # Abbreviation
