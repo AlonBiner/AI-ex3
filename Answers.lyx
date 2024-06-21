@@ -1341,5 +1341,243 @@ As we see from the averages, the Expectmax algorithms higest tile average
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(4)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Algorihtm 
+\backslash
+ Standard Deviation Of
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Highest Tile
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Score
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Minmax
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+250.8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2930.06
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Alpha-Beta
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+198.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2180.99
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Expectmax
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+232.32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3640.72
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+As we see from this table, which displays the standard deviation of each
+ algorithm according to its highest tile and score, the Alpha-Beta algorithm
+ is more consistent than the Expectmax algorithm.
+ The Minmax algorithm without pruning is a little less consistent than expect
+ max in the term of highest tile, but is more consistent in with the score,
+ which is roughly the same result with pruning.
+\end_layout
+
+\begin_layout Itemize
+This is something we would expect to see:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Minmax (with and without pruning) algorithm is more consistint in its
+ essence.
+ It will always choose the worst placement for the player, which the player
+ can expect.
+ 
+\end_layout
+
+\begin_layout Itemize
+On the other hand, the Expectmax algorithm shouldn't be consistent as Alph-Beta,
+ because it doesn't know what to expect for in the next move.
+ The algorithm may not be random, but randomness is expressed by evaluating
+ the probability of each outcome that could happen after the expectation
+ node, and summing the products of each leaf with its probability.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Alternative Games
+\end_layout
+
+\begin_layout Subsubsection*
+(1)
+\end_layout
+
+\begin_layout Itemize
+The Minmax algorithm will after each turn will take the 
+\begin_inset Quotes eld
+\end_inset
+
+boom
+\begin_inset Quotes erd
+\end_inset
+
+ option.
+ This is in order to make the player fail.
+\end_layout
+
+\begin_layout Itemize
+The Expectmax algorithm will take in accoount the probability of getting
+ 
+\begin_inset Quotes eld
+\end_inset
+
+boom
+\begin_inset Quotes erd
+\end_inset
+
+ option, which is 0, and try to calculate its options for other probabilities.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(2)
+\end_layout
+
+\begin_layout Itemize
+In a game of 2048 where the new tile is placed 100% of the times in the
+ worst possible place for the player, the Minmax algorithm will outpreform
+ the Expectmax.
+\end_layout
+
+\begin_layout Itemize
+The reason is because the Minmax will know for sure where the tile placement
+ would be, and do its turn in order to minimize failure, while the Expectmax
+ doesn't know where the placement would be, hence the failure is more probable.
+\end_layout
+
 \end_body
 \end_document
